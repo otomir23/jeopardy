@@ -9,7 +9,7 @@ export type TeamDisplayProps = {
 export default function TeamDisplay({teams, current, onSkip}: TeamDisplayProps) {
     return (
         <aside className="flex flex-col items-center gap-2">
-            <section className="flex flex-row items-center gap-2">
+            <section className="flex flex-row flex-wrap justify-center items-center gap-2">
                 {teams.map((team, i) => (
                     <div
                         key={`team ${i}`}

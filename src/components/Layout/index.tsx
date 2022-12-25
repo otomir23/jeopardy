@@ -16,7 +16,7 @@ export default function Layout({children}: LayoutProps) {
                 <title>Своя игра!</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <main className="font-sans flex flex-col gap-2 items-center justify-center min-h-screen w-full">
+            <main className="font-sans flex flex-col gap-2 items-center justify-center min-h-screen w-full p-2">
                 {children}
             </main>
         </div>
