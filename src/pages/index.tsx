@@ -2,12 +2,14 @@ import {Layout, QuestionCard, QuizDisplay, TeamDisplay, TeamRegistration} from "
 import {useEffect, useState} from "react";
 import {Question, Quiz, Team} from "../types";
 import toast from "react-hot-toast";
+import ReactConfetti from "react-confetti";
 
 export default function Home() {
     const [teams, setTeams] = useState<Team[]>([])
     const [currentTeam, setCurrentTeam] = useState<number>(0)
     const [quiz, setQuiz] = useState<Quiz | null>(null)
     const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
+    const [win, setWin] = useState<boolean>(false)
 
     useEffect(() => {
         fetch('/api/quiz').then(r => r.json()).then(q => setQuiz(q))
@@ -20,6 +22,7 @@ export default function Home() {
                 toast('Команда ' + winnerTeam.name + ' победила!', {
                     icon: '🎉',
                 })
+                setWin(true)
             }
         }
     }, [quiz, teams])
@@ -73,6 +76,21 @@ export default function Home() {
             <QuizDisplay quiz={quiz} onSelect={(c, q) => setSelectedQuestion(quiz[c].questions[q])} />
             <div className="w-full h-16" />
             <TeamDisplay teams={teams} current={currentTeam} onSkip={nextTeam} />
+            <ReactConfetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+                numberOfPieces={100}
+                recycle={false}
+                gravity={0.1}
+                wind={0.1}
+                run={win}
+                confettiSource={{x: 0, y: window.innerHeight, w: window.innerWidth, h: 10}}
+                initialVelocityY={30}
+                colors={['#818cf8', '#4f46e5', '#312e81', '#a5b4fc']}
+                style={{
+                    pointerEvents: 'none',
+                }}
+            />
         </Layout>
     )
 }
