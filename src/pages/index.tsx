@@ -1,9 +1,10 @@
-import {Layout, TeamRegistration} from "../components";
+import {Layout, TeamDisplay, TeamRegistration} from "../components";
 import {useEffect, useState} from "react";
 import {Quiz, Team} from "../types";
 
 export default function Home() {
     const [teams, setTeams] = useState<Team[]>([])
+    const [currentTeam, setCurrentTeam] = useState<number>(0)
     const [quiz, setQuiz] = useState<Quiz | null>(null)
 
     useEffect(() => {
@@ -30,8 +31,8 @@ export default function Home() {
     return (
         <Layout>
             <p className="underline">Своя игра.</p>
-            {teams.map(t => <p key={t.name}>{t.name}</p>)}
             {quiz.map(c => <p key={c.name}>{c.name}</p>)}
+            <TeamDisplay teams={teams} current={currentTeam} onSkip={() => setCurrentTeam((currentTeam + 1) % teams.length)} />
         </Layout>
     )
 }
