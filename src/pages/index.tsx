@@ -13,7 +13,8 @@ export default function Home() {
     if (!quiz) {
         return (
             <Layout>
-                Loading
+                <div className="border border-indigo-400 w-8 h-8 border-4 animate-spin" />
+                <p className="text-indigo-800 font-bold mt-2">Загружаю вопросы...</p>
             </Layout>
         )
     }
