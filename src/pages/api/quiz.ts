@@ -1,51 +1,82 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {Quiz} from "../../types";
 
+// Jeopardy quiz
 const quiz: Quiz = [
     {
-        name: "General Knowledge",
+        name: "Общие вопросы",
         questions: [
             {
-                question: "What is the capital of France?",
-                options: ["Paris", "London", "Berlin", "Rome"],
-                answer: 0,
+                question: "Какая планета находится ближе к Солнцу?",
+                options: [
+                    "Земля",
+                    "Меркурий",
+                    "Марс",
+                    "Венера"
+                ],
+                answer: 1,
                 bonus: 100
             },
             {
-                question: "Who is the current president of the United States?",
-                options: ["Donald Trump", "Barack Obama", "Joe Biden", "George W. Bush"],
-                answer: 2,
+                question: "Кто из этих людей не был президентом США?",
+                options: [
+                    "Джордж Вашингтон",
+                    "Джон Кеннеди",
+                    "Абрахам Линкольн",
+                    "Томас Джефферсон"
+                ],
+                answer: 1,
                 bonus: 200
             },
             {
-                question: "What is the largest country in the world?",
-                options: ["China", "Russia", "Canada", "United States"],
-                answer: 1,
+                question: "Какой из океанов самый большой?",
+                options: [
+                    "Северный Ледовитый",
+                    "Атлантический",
+                    "Индийский",
+                    "Тихий",
+                ],
+                answer: 3,
                 bonus: 300
             },
             {
-                question: "What is the largest ocean in the world?",
-                options: ["Pacific", "Atlantic", "Indian", "Arctic"],
+                question: "Кто был первым человеком, посетившим Луну?",
+                options: [
+                    "Нил Армстронг",
+                    "Алексей Леонов",
+                    "Билл Штейнман",
+                    "Питер Шмидт"
+                ],
                 answer: 0,
                 bonus: 400
             },
             {
-                question: "What is the largest city in the world?",
-                options: ["Tokyo", "New York", "Mexico City", "Shanghai"],
-                answer: 3,
+                question: "Какой из этих городов самый большой?",
+                options: [
+                    "Москва",
+                    "Санкт-Петербург",
+                    "Нью-Йорк",
+                    "Лондон"
+                ],
+                answer: 2,
                 bonus: 500
             }
         ]
     },
     {
-        name: "Science & Nature",
+        name: "История",
         questions: [
             {
-                question: "What is the chemical symbol for gold?",
-                options: ["Au", "Ag", "Pt", "Hg"],
-                answer: 0,
+                question: "Какой город был столицей Российской империи?",
+                options: [
+                    "Москва",
+                    "Санкт-Петербург",
+                    "Владивосток",
+                    "Симферополь"
+                ],
+                answer: 1,
                 bonus: 100
-            }
+            },
         ]
     }
 ]
