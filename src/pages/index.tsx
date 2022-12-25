@@ -1,4 +1,4 @@
-import {Layout, TeamDisplay, TeamRegistration} from "../components";
+import {Layout, QuizDisplay, TeamDisplay, TeamRegistration} from "../components";
 import {useEffect, useState} from "react";
 import {Quiz, Team} from "../types";
 
@@ -30,8 +30,8 @@ export default function Home() {
 
     return (
         <Layout>
-            <p className="underline">Своя игра.</p>
-            {quiz.map(c => <p key={c.name}>{c.name}</p>)}
+            <QuizDisplay quiz={quiz} onSelect={console.log} />
+            <div className="w-full h-16" />
             <TeamDisplay teams={teams} current={currentTeam} onSkip={() => setCurrentTeam((currentTeam + 1) % teams.length)} />
         </Layout>
     )
