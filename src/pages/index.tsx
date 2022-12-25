@@ -1,6 +1,7 @@
 import {Layout, QuestionCard, QuizDisplay, TeamDisplay, TeamRegistration} from "../components";
 import {useEffect, useState} from "react";
 import {Question, Quiz, Team} from "../types";
+import toast from "react-hot-toast";
 
 export default function Home() {
     const [teams, setTeams] = useState<Team[]>([])
@@ -15,7 +16,11 @@ export default function Home() {
     useEffect(() => {
         if (quiz && quiz.length === 0) {
             const winnerTeam = teams.sort((a, b) => b.score - a.score)[0]
-            console.log(winnerTeam.name + ' победила!')
+            if (winnerTeam) {
+                toast('Команда ' + winnerTeam.name + ' победила!', {
+                    icon: '🎉',
+                })
+            }
         }
     }, [quiz, teams])
 
@@ -45,6 +50,9 @@ export default function Home() {
                 const newTeams = teams;
                 teams[currentTeam].score += selectedQuestion.bonus;
                 setTeams(newTeams);
+                toast.success('Правильный ответ!');
+            } else {
+                toast.error(`Неправильный ответ! \nПравильным был: ${selectedQuestion.options[selectedQuestion.answer]}`);
             }
             setQuiz(quiz.map(c => ({
                 name: c.name,
