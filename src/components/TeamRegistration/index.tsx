@@ -19,7 +19,7 @@ export default function TeamRegistration({onRegister}: TeamRegistrationProps) {
                             <label className="block text-sm font-medium text-gray-700">{index + 1}</label>
                             <input
                                 type="text"
-                                className="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                 placeholder="Имя команды"
                                 onChange={(e) => {
                                     const newTeams = [...teams];
@@ -29,21 +29,21 @@ export default function TeamRegistration({onRegister}: TeamRegistrationProps) {
                             />
                             <button
                                 type="button"
-                                className="px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                className="text-2xl text-gray-400 hover:text-red-400 transition-colors"
                                 onClick={() => {
                                     const newTeams = [...teams];
                                     newTeams.splice(index, 1);
                                     setTeams(newTeams);
                                 }}
                             >
-                                Удалить
+                                ×
                             </button>
                         </div>
                     </div>
                 ))}
                 {teams.length < 4 && (
                     <button
-                        className="flex items-center justify-center w-full p-4 text-left border rounded-md hover:border-gray-300 text-gray-400 hover:text-gray-500 text-4xl transition-colors"
+                        className="flex items-center justify-center w-full p-3 text-left border rounded-md hover:border-gray-300 text-gray-400 hover:text-gray-500 text-4xl transition-colors"
                         onClick={() => setTeams([...teams, {name: '', score: 0}])}
                     >
                         +
@@ -51,10 +51,10 @@ export default function TeamRegistration({onRegister}: TeamRegistrationProps) {
                 )}
                 {(teams.length > 1 && teams.length < 5 && teams.filter(team => team.name.length < 1).length === 0) && (
                     <button
-                        className="px-4 py-2 font-bold text-white bg-green-500 rounded-md w-full hover:bg-green-600 transition-colors"
+                        className="px-4 py-2 font-bold bg-indigo-50 text-indigo-800 rounded-md w-full border border-transparent hover:border-indigo-400 transition-colors"
                         onClick={() => onRegister && onRegister(teams)}
                     >
-                        Перейти к игре
+                        Перейти к игре ›
                     </button>
                 )}
             </div>
