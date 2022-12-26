@@ -8,8 +8,13 @@ export type QuestionCardProps = {
 export default function QuestionCard({question, onAnswer}: QuestionCardProps) {
     return (
         <>
-            {question.question}
-            <div className="flex flex-col gap-2">
+            {question.image && (
+                <img src={question.image} alt={question.question} className="max-h-64"/>
+            )}
+            <h1 className="text-2xl font-bold">
+                {question.question}
+            </h1>
+            <div className="flex flex-col gap-2 mt-4">
                 {question.options.map((answer, i) => (
                     <button
                         key={`answer ${i}`}

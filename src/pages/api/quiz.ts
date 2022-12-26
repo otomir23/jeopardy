@@ -68,6 +68,7 @@ const quiz: Quiz = [
         questions: [
             {
                 question: "Какой город был столицей Российской империи?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Lesser_Coat_of_Arms_of_Russian_Empire.svg/800px-Lesser_Coat_of_Arms_of_Russian_Empire.svg.png",
                 options: [
                     "Москва",
                     "Санкт-Петербург",
