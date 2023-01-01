@@ -18,6 +18,7 @@ export default function Home() {
             if (winnerTeam) {
                 toast('Команда ' + winnerTeam.name + ' победила!', {
                     icon: '🎉',
+                    duration: Infinity,
                 })
                 setWin(true)
             }
