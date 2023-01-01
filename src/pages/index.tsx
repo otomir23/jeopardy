@@ -1,8 +1,9 @@
 import {Layout, QuestionCard, QuizDisplay, TeamDisplay, TeamRegistration} from "../components";
 import {useEffect, useState} from "react";
-import {Question, Quiz, Team} from "../types";
+import {Category, Question, Quiz, Team} from "../types";
 import toast from "react-hot-toast";
 import ReactConfetti from "react-confetti";
+import {parse} from 'csv-parse/sync';
 
 export default function Home() {
     const [teams, setTeams] = useState<Team[]>([])
@@ -10,10 +11,6 @@ export default function Home() {
     const [quiz, setQuiz] = useState<Quiz | null>(null)
     const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
     const [win, setWin] = useState<boolean>(false)
-
-    useEffect(() => {
-        fetch('/api/quiz').then(r => r.json()).then(q => setQuiz(q))
-    }, [])
 
     useEffect(() => {
         if (quiz && quiz.length === 0) {
@@ -32,8 +29,61 @@ export default function Home() {
     if (!quiz) {
         return (
             <Layout>
-                <div className="border border-indigo-400 w-8 h-8 border-4 animate-spin" />
-                <p className="text-indigo-800 font-bold mt-2">Загружаю вопросы...</p>
+                <input id="quiz-file-input" type="file" onChange={e => {
+                    if (!e.target.files) return
+                    const file = e.target.files[0]
+                    if (!file) return
+
+                    const loadPromise = new Promise<Quiz>(async (resolve, reject) => {
+                        try {
+                            const content = await file.text()
+                            console.log(content)
+                            const records = parse(content, {
+                                columns: true,
+                                skip_empty_lines: true,
+                                encoding: 'utf-8'
+                            })
+                            console.log(records)
+
+                            const quiz: Quiz = [];
+
+                            for (const record of records) {
+                                const category = quiz.find(c => c.name === record.category) || (() => {
+                                    const category: Category = {name: record.category, questions: []}
+                                    quiz.push(category)
+                                    return category
+                                })()
+
+                                category.questions.push({
+                                    question: record.question || '',
+                                    answer: (parseInt(record.answer) || 0) - 1,
+                                    bonus: parseInt(record.bonus) || 0,
+                                    image: record.image || null,
+                                    options: (record.options?.split(',') || []).map((o: string) => o.trim())
+                                })
+                            }
+
+                            resolve(quiz)
+                        } catch (e) {
+                            reject(e)
+                        }
+                    })
+
+                    toast.promise(loadPromise, {
+                        loading: 'Загрузка викторины...',
+                        success: 'Викторина загружена!',
+                        error: 'Не удалось загрузить викторину!',
+                    }).then(
+                        setQuiz,
+                        console.error
+                    )
+                }} className="sr-only" accept="text/csv"/>
+                <label
+                    htmlFor="quiz-file-input"
+                    className="border-2 border-dashed border-gray-300 rounded-lg p-8 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-indigo-400 text-gray-400 hover:text-indigo-500 transition-colors"
+                >
+                    <span className="font-bold">Загрузить викторину</span>
+                </label>
             </Layout>
         )
     }
@@ -66,16 +116,16 @@ export default function Home() {
 
         return (
             <Layout>
-                <QuestionCard question={selectedQuestion} onAnswer={handleAnswer} />
+                <QuestionCard question={selectedQuestion} onAnswer={handleAnswer}/>
             </Layout>
         )
     }
 
     return (
         <Layout>
-            <QuizDisplay quiz={quiz} onSelect={(c, q) => setSelectedQuestion(quiz[c].questions[q])} />
-            <div className="w-full h-16" />
-            <TeamDisplay teams={teams} current={currentTeam} onSkip={nextTeam} />
+            <QuizDisplay quiz={quiz} onSelect={(c, q) => setSelectedQuestion(quiz[c].questions[q])}/>
+            <div className="w-full h-16"/>
+            <TeamDisplay teams={teams} current={currentTeam} onSkip={nextTeam}/>
             <ReactConfetti
                 width={window.innerWidth}
                 height={window.innerHeight}
